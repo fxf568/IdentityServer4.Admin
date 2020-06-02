@@ -3,6 +3,9 @@ using Skoruba.IdentityServer4.Admin.BusinessLogic.Dtos.Configuration;
 
 namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services.Interfaces
 {
+    /// <summary>
+    /// Api资源服务接口
+    /// </summary>
     public interface IApiResourceService
     {
         ApiSecretsDto BuildApiSecretsViewModel(ApiSecretsDto apiSecrets);

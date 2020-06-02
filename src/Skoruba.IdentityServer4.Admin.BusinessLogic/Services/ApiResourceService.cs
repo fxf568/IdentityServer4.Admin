@@ -14,6 +14,9 @@ using Skoruba.IdentityServer4.Admin.EntityFramework.Repositories.Interfaces;
 
 namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 {
+    /// <summary>
+    /// Api资源服务
+    /// </summary>
     public class ApiResourceService : IApiResourceService
     {
         protected readonly IApiResourceRepository ApiResourceRepository;

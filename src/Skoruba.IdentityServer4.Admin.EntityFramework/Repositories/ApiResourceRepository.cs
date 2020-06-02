@@ -104,8 +104,9 @@ namespace Skoruba.IdentityServer4.Admin.EntityFramework.Repositories
 
         public virtual async Task<bool> CanInsertApiResourcePropertyAsync(ApiResourceProperty apiResourceProperty)
         {
-            var existsWithSameName = await DbContext.ApiResourceProperties.Where(x => x.Key == apiResourceProperty.Key
-                                                                                       && x.ApiResource.Id == apiResourceProperty.ApiResourceId).SingleOrDefaultAsync();
+            var existsWithSameName = await DbContext.ApiResourceProperties
+                .Where(x => x.Key == apiResourceProperty.Key&& x.ApiResource.Id == apiResourceProperty.ApiResourceId)
+                .SingleOrDefaultAsync();
             return existsWithSameName == null;
         }
 

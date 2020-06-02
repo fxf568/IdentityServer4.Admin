@@ -12,6 +12,9 @@ using Skoruba.IdentityServer4.Admin.BusinessLogic.Services.Interfaces;
 
 namespace Skoruba.IdentityServer4.Admin.Api.Controllers
 {
+    /// <summary>
+    /// 访问的Api资源
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [TypeFilter(typeof(ControllerExceptionFilterAttribute))]
@@ -27,7 +30,13 @@ namespace Skoruba.IdentityServer4.Admin.Api.Controllers
             _apiResourceService = apiResourceService;
             _errorResources = errorResources;
         }
-
+        /// <summary>
+        /// 获取资源
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<ApiResourcesApiDto>> Get(string searchText, int page = 1, int pageSize = 10)
         {
