@@ -25,7 +25,10 @@ namespace Skoruba.IdentityServer4.Admin
             try
             {
                 var seed = args.Any(x => x == SeedArgs);
-                if (seed) args = args.Except(new[] { SeedArgs }).ToArray();
+                if (seed)
+                {
+                    args = args.Except(new[] { SeedArgs }).ToArray();
+                }
 
                 var host = CreateHostBuilder(args).Build();
 

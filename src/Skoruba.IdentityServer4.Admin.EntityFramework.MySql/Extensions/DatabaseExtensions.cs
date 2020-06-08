@@ -2,6 +2,7 @@
 using IdentityServer4.EntityFramework.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Skoruba.AuditLogging.EntityFramework.DbContexts;
 using Skoruba.AuditLogging.EntityFramework.Entities;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Interfaces;
@@ -10,6 +11,7 @@ namespace Skoruba.IdentityServer4.Admin.EntityFramework.MySql.Extensions
 {
     public static class DatabaseExtensions
     {
+        public static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
         /// <summary>
         /// Register DbContexts for IdentityServer ConfigurationStore and PersistedGrants, Identity and Logging
         /// Configure the connection strings in AppSettings.json
@@ -45,11 +47,19 @@ namespace Skoruba.IdentityServer4.Admin.EntityFramework.MySql.Extensions
             // Config DB from existing connection
             services.AddConfigurationDbContext<TConfigurationDbContext>(options =>
                 options.ConfigureDbContext = b =>
-                    b.UseMySql(configurationConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
+                {
+                    b
+                    .UseLoggerFactory(MyLoggerFactory)
+                    .UseMySql(configurationConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+                });
+
 
             // Operational DB from existing connection
             services.AddOperationalDbContext<TPersistedGrantDbContext>(options => options.ConfigureDbContext = b =>
-                b.UseMySql(persistedGrantConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
+            {
+                b.UseLoggerFactory(MyLoggerFactory)
+                .UseMySql(persistedGrantConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+            });
 
             // Log DB from existing connection
             services.AddDbContext<TLogDbContext>(options => options.UseMySql(errorLoggingConnectionString,
@@ -82,13 +92,29 @@ namespace Skoruba.IdentityServer4.Admin.EntityFramework.MySql.Extensions
             var migrationsAssembly = typeof(DatabaseExtensions).GetTypeInfo().Assembly.GetName().Name;
 
             // Config DB for identity
-            services.AddDbContext<TIdentityDbContext>(options => options.UseMySql(identityConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
+            services.AddDbContext<TIdentityDbContext>(options =>
+            {
+                options
+                .UseLoggerFactory(MyLoggerFactory)
+                .UseMySql(identityConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+            });
 
             // Config DB from existing connection
-            services.AddConfigurationDbContext<TConfigurationDbContext>(options => options.ConfigureDbContext = b => b.UseMySql(configurationConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
+            services.AddConfigurationDbContext<TConfigurationDbContext>(options => options.ConfigureDbContext = b =>
+            {
+                b
+                .UseLoggerFactory(MyLoggerFactory)
+                .UseMySql(configurationConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+            });
+
 
             // Operational DB from existing connection
-            services.AddOperationalDbContext<TPersistedGrantDbContext>(options => options.ConfigureDbContext = b => b.UseMySql(persistedGrantConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
+            services.AddOperationalDbContext<TPersistedGrantDbContext>(options => options.ConfigureDbContext = b =>
+            {
+                b
+                .UseLoggerFactory(MyLoggerFactory)
+                .UseMySql(persistedGrantConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+            });
         }
     }
 }

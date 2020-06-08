@@ -3,8 +3,15 @@ using Skoruba.IdentityServer4.Admin.EntityFramework.Extensions.Common;
 
 namespace Skoruba.IdentityServer4.Admin.EntityFramework.Constants
 {
+    /// <summary>
+    /// 客户端常量
+    /// </summary>
     public static class ClientConsts
     {
+        /// <summary>
+        /// 加密类型
+        /// </summary>
+        /// <returns></returns>
         public static List<string> GetSecretTypes()
         {
             var secretTypes = new List<string>

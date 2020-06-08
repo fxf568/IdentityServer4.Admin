@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using IdentityServer4.EntityFramework.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ namespace Skoruba.IdentityServer4.Admin.Controllers
 
             return View();
         }
-
+        
         public IActionResult Logout()
         {
             return new SignOutResult(new List<string> { AuthenticationConsts.SignInScheme, AuthenticationConsts.OidcAuthenticationScheme });

@@ -35,7 +35,13 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
             ClientService = clientService;
             AuditEventLogger = auditEventLogger;
         }
-
+        /// <summary>
+        /// 获取Api资源
+        /// </summary>
+        /// <param name="search"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public virtual async Task<ApiResourcesDto> GetApiResourcesAsync(string search, int page = 1, int pageSize = 10)
         {
             var pagedList = await ApiResourceRepository.GetApiResourcesAsync(search, page, pageSize);
@@ -45,7 +51,13 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return apiResourcesDto;
         }
-
+        /// <summary>
+        /// 获取Api资源自定义属性列表
+        /// </summary>
+        /// <param name="apiResourceId">api资源Id</param>
+        /// <param name="page">第几页</param>
+        /// <param name="pageSize">每页几条</param>
+        /// <returns></returns>
         public virtual async Task<ApiResourcePropertiesDto> GetApiResourcePropertiesAsync(int apiResourceId, int page = 1, int pageSize = 10)
         {
             var apiResource = await ApiResourceRepository.GetApiResourceAsync(apiResourceId);
@@ -60,7 +72,11 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return apiResourcePropertiesDto;
         }
-
+        /// <summary>
+        /// 获取Api资源自定义属性
+        /// </summary>
+        /// <param name="apiResourcePropertyId">api资源自定义属性Id</param>
+        /// <returns></returns>
         public virtual async Task<ApiResourcePropertiesDto> GetApiResourcePropertyAsync(int apiResourcePropertyId)
         {
             var apiResourceProperty = await ApiResourceRepository.GetApiResourcePropertyAsync(apiResourcePropertyId);
@@ -74,7 +90,11 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return apiResourcePropertiesDto;
         }
-
+        /// <summary>
+        /// 添加Api资源自定义属性
+        /// </summary>
+        /// <param name="apiResourceProperties"></param>
+        /// <returns></returns>
         public virtual async Task<int> AddApiResourcePropertyAsync(ApiResourcePropertiesDto apiResourceProperties)
         {
             var canInsert = await CanInsertApiResourcePropertyAsync(apiResourceProperties);
@@ -92,7 +112,11 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return saved;
         }
-
+        /// <summary>
+        /// 删除Api资源自定义属性
+        /// </summary>
+        /// <param name="apiResourceProperty"></param>
+        /// <returns></returns>
         public virtual async Task<int> DeleteApiResourcePropertyAsync(ApiResourcePropertiesDto apiResourceProperty)
         {
             var propertyEntity = apiResourceProperty.ToEntity();
@@ -103,7 +127,11 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return deleted;
         }
-
+        /// <summary>
+        /// 判断Api资源自定义属性是否存在
+        /// </summary>
+        /// <param name="apiResourceProperty"></param>
+        /// <returns></returns>
         public virtual async Task<bool> CanInsertApiResourcePropertyAsync(ApiResourcePropertiesDto apiResourceProperty)
         {
             var resource = apiResourceProperty.ToEntity();
@@ -124,7 +152,11 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
                 apiSecret.Value = apiSecret.Value.Sha512();
             }
         }
-
+        /// <summary>
+        /// 构建Api加密试图模型
+        /// </summary>
+        /// <param name="apiSecrets"></param>
+        /// <returns></returns>
         public virtual ApiSecretsDto BuildApiSecretsViewModel(ApiSecretsDto apiSecrets)
         {
             apiSecrets.HashTypes = ClientService.GetHashTypes();
@@ -132,7 +164,11 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return apiSecrets;
         }
-
+        /// <summary>
+        /// 获取Api资源
+        /// </summary>
+        /// <param name="apiResourceId">Api资源Id</param>
+        /// <returns></returns>
         public virtual async Task<ApiResourceDto> GetApiResourceAsync(int apiResourceId)
         {
             var apiResource = await ApiResourceRepository.GetApiResourceAsync(apiResourceId);
@@ -143,7 +179,11 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return apiResourceDto;
         }
-
+        /// <summary>
+        /// 添加Api资源
+        /// </summary>
+        /// <param name="apiResource"></param>
+        /// <returns></returns>
         public virtual async Task<int> AddApiResourceAsync(ApiResourceDto apiResource)
         {
             var canInsert = await CanInsertApiResourceAsync(apiResource);
@@ -160,7 +200,11 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return added;
         }
-
+        /// <summary>
+        /// 更新Api资源
+        /// </summary>
+        /// <param name="apiResource"></param>
+        /// <returns></returns>
         public virtual async Task<int> UpdateApiResourceAsync(ApiResourceDto apiResource)
         {
             var canInsert = await CanInsertApiResourceAsync(apiResource);
@@ -179,7 +223,11 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return updated;
         }
-
+        /// <summary>
+        /// 删除Api资源
+        /// </summary>
+        /// <param name="apiResource"></param>
+        /// <returns></returns>
         public virtual async Task<int> DeleteApiResourceAsync(ApiResourceDto apiResource)
         {
             var resource = apiResource.ToEntity();
@@ -190,14 +238,24 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return deleted;
         }
-
+        /// <summary>
+        /// 判断Api资源是否窜在
+        /// </summary>
+        /// <param name="apiResource"></param>
+        /// <returns></returns>
         public virtual async Task<bool> CanInsertApiResourceAsync(ApiResourceDto apiResource)
         {
             var resource = apiResource.ToEntity();
 
             return await ApiResourceRepository.CanInsertApiResourceAsync(resource);
         }
-
+        /// <summary>
+        /// 获取Api资源范围
+        /// </summary>
+        /// <param name="apiResourceId"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public virtual async Task<ApiScopesDto> GetApiScopesAsync(int apiResourceId, int page = 1, int pageSize = 10)
         {
             var apiResource = await ApiResourceRepository.GetApiResourceAsync(apiResourceId);
@@ -213,7 +271,12 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return apiScopesDto;
         }
-
+        /// <summary>
+        /// 获取Api范围详情
+        /// </summary>
+        /// <param name="apiResourceId"></param>
+        /// <param name="apiScopeId"></param>
+        /// <returns></returns>
         public virtual async Task<ApiScopesDto> GetApiScopeAsync(int apiResourceId, int apiScopeId)
         {
             var apiResource = await ApiResourceRepository.GetApiResourceAsync(apiResourceId);
@@ -229,7 +292,11 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return apiScopesDto;
         }
-
+        /// <summary>
+        /// 添加Api范围
+        /// </summary>
+        /// <param name="apiScope"></param>
+        /// <returns></returns>
         public virtual async Task<int> AddApiScopeAsync(ApiScopesDto apiScope)
         {
             var canInsert = await CanInsertApiScopeAsync(apiScope);
@@ -247,14 +314,22 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return added;
         }
-
+        /// <summary>
+        /// 获取Api范围视图模型
+        /// </summary>
+        /// <param name="apiScope"></param>
+        /// <returns></returns>
         public virtual ApiScopesDto BuildApiScopeViewModel(ApiScopesDto apiScope)
         {
             ComboBoxHelpers.PopulateValuesToList(apiScope.UserClaimsItems, apiScope.UserClaims);
 
             return apiScope;
         }
-
+        /// <summary>
+        /// 获取Api范围视图模型(异步)
+        /// </summary>
+        /// <param name="apiScope"></param>
+        /// <returns></returns>
         private async Task BuildApiScopesViewModelAsync(ApiScopesDto apiScope)
         {
             if (apiScope.ApiScopeId == 0)
@@ -264,14 +339,22 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
                 apiScope.TotalCount = apiScopesDto.TotalCount;
             }
         }
-
+        /// <summary>
+        /// 获取Api资源自定义属性视图模型
+        /// </summary>
+        /// <param name="apiResourceProperties"></param>
+        /// <returns></returns>
         private async Task BuildApiResourcePropertiesViewModelAsync(ApiResourcePropertiesDto apiResourceProperties)
         {
             var apiResourcePropertiesDto = await GetApiResourcePropertiesAsync(apiResourceProperties.ApiResourceId);
             apiResourceProperties.ApiResourceProperties.AddRange(apiResourcePropertiesDto.ApiResourceProperties);
             apiResourceProperties.TotalCount = apiResourcePropertiesDto.TotalCount;
         }
-
+        /// <summary>
+        /// 更新Api范围
+        /// </summary>
+        /// <param name="apiScope"></param>
+        /// <returns></returns>
         public virtual async Task<int> UpdateApiScopeAsync(ApiScopesDto apiScope)
         {
             var canInsert = await CanInsertApiScopeAsync(apiScope);
@@ -291,7 +374,11 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return updated;
         }
-
+        /// <summary>
+        /// 删除Api范围
+        /// </summary>
+        /// <param name="apiScope"></param>
+        /// <returns></returns>
         public virtual async Task<int> DeleteApiScopeAsync(ApiScopesDto apiScope)
         {
             var scope = apiScope.ToEntity();
@@ -302,7 +389,13 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Services
 
             return deleted;
         }
-
+        /// <summary>
+        /// 获取Api资源访问密钥
+        /// </summary>
+        /// <param name="apiResourceId"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public virtual async Task<ApiSecretsDto> GetApiSecretsAsync(int apiResourceId, int page = 1, int pageSize = 10)
         {
             var apiResource = await ApiResourceRepository.GetApiResourceAsync(apiResourceId);

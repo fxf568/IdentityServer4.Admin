@@ -9,6 +9,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Log\**" />
+      <Content Remove="Log\**" />
+      <EmbeddedResource Remove="Log\**" />
+      <None Remove="Log\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="AspNetCore.HealthChecks.MySql" Version="3.0.0" />
         <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="3.0.0" />
         <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="3.0.0" />

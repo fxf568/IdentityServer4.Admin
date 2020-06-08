@@ -236,7 +236,13 @@ namespace Skoruba.IdentityServer4.Admin.EntityFramework.Repositories
 
             return await AutoSaveChangesAsync();
         }
-
+        /// <summary>
+        /// 获取Api访问密钥
+        /// </summary>
+        /// <param name="apiResourceId">api资源Id</param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public virtual async Task<PagedList<ApiSecret>> GetApiSecretsAsync(int apiResourceId, int page = 1, int pageSize = 10)
         {
             var pagedList = new PagedList<ApiSecret>();

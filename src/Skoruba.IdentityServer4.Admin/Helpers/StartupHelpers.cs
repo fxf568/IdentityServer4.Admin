@@ -361,14 +361,14 @@ namespace Skoruba.IdentityServer4.Admin.Helpers
                     options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 })
-                    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-                        options =>
-                        {
-                            options.Cookie.Name = adminConfiguration.IdentityAdminCookieName;
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                    options =>
+                    {
+                        options.Cookie.Name = adminConfiguration.IdentityAdminCookieName;
 
-                            // Issue: https://github.com/aspnet/Announcements/issues/318
-                            options.Cookie.SameSite = SameSiteMode.None;
-                        })
+                        // Issue: https://github.com/aspnet/Announcements/issues/318
+                        options.Cookie.SameSite = SameSiteMode.None;
+                    })
                     .AddOpenIdConnect(AuthenticationConsts.OidcAuthenticationScheme, options =>
                     {
                         options.Authority = adminConfiguration.IdentityServerBaseUrl;

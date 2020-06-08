@@ -56,10 +56,13 @@ namespace Skoruba.IdentityServer4.Admin
                                 UsersDto<UserDto<string>, string>, RolesDto<RoleDto<string>, string>, UserRolesDto<RoleDto<string>, string, string>,
                                 UserClaimsDto<string>, UserProviderDto<string>, UserProvidersDto<string>, UserChangePasswordDto<string>,
                                 RoleClaimsDto<string>, UserClaimDto<string>, RoleClaimDto<string>>();
-            
+
             // Add all dependencies for Asp.Net Core Identity in MVC - these dependencies are injected into generic Controllers
             // Including settings for MVC and Localization
             // If you want to change primary keys or use another db model for Asp.Net Core Identity:
+            //添加的所有依赖项Asp.NetMVC中的核心标识-这些依赖项被注入到通用控制器中
+            //包括MVC和本地化设置
+            //如果要更改主键或使用其他数据库模型Asp.Net核心身份：
             services.AddMvcWithLocalization<UserDto<string>, string, RoleDto<string>, string, string, string,
                 UserIdentity, UserIdentityRole, string, UserIdentityUserClaim, UserIdentityUserRole,
                 UserIdentityUserLogin, UserIdentityRoleClaim, UserIdentityUserToken,
@@ -68,11 +71,13 @@ namespace Skoruba.IdentityServer4.Admin
                 RoleClaimsDto<string>>(Configuration);
 
             // Add authorization policies for MVC
+            //添加授权策略
             RegisterAuthorization(services);
 
             // Add audit logging
+            //添加审计日志
             services.AddAuditEventLogging<AdminAuditLogDbContext, AuditLog>(Configuration);
-
+            //添加健康检查
             services.AddIdSHealthChecks<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, AdminIdentityDbContext, AdminLogDbContext, AdminAuditLogDbContext>(Configuration, rootConfiguration.AdminConfiguration);
         }
 
@@ -111,21 +116,34 @@ namespace Skoruba.IdentityServer4.Admin
 
         public virtual void RegisterDbContexts(IServiceCollection services)
         {
+            //AdminIdentityDbContext:for Asp.Net Core Identity
+            //AdminLogDbContext:日志
+            //IdentityServerConfigurationDbContext：配置信息
+            //IdentityServerPersistedGrantDbContext：操作信息
             services.RegisterDbContexts<AdminIdentityDbContext, IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, AdminLogDbContext, AdminAuditLogDbContext>(Configuration);
         }
-
+        /// <summary>
+        /// 注册身份验证
+        /// </summary>
+        /// <param name="services"></param>
         public virtual void RegisterAuthentication(IServiceCollection services)
         {
             var rootConfiguration = CreateRootConfiguration();
             services.AddAuthenticationServices<AdminIdentityDbContext, UserIdentity, UserIdentityRole>(rootConfiguration.AdminConfiguration);
         }
-
+        /// <summary>
+        /// 注册授权
+        /// </summary>
+        /// <param name="services"></param>
         public virtual void RegisterAuthorization(IServiceCollection services)
         {
             var rootConfiguration = CreateRootConfiguration();
             services.AddAuthorizationPolicies(rootConfiguration);
         }
-
+        /// <summary>
+        /// 使用身份验证
+        /// </summary>
+        /// <param name="app"></param>
         public virtual void UseAuthentication(IApplicationBuilder app)
         {
             app.UseAuthentication();
@@ -134,9 +152,12 @@ namespace Skoruba.IdentityServer4.Admin
         protected IRootConfiguration CreateRootConfiguration()
         {
             var rootConfiguration = new RootConfiguration();
-            Configuration.GetSection(ConfigurationConsts.AdminConfigurationKey).Bind(rootConfiguration.AdminConfiguration);
-            Configuration.GetSection(ConfigurationConsts.IdentityDataConfigurationKey).Bind(rootConfiguration.IdentityDataConfiguration);
-            Configuration.GetSection(ConfigurationConsts.IdentityServerDataConfigurationKey).Bind(rootConfiguration.IdentityServerDataConfiguration);
+            Configuration.GetSection(ConfigurationConsts.AdminConfigurationKey)
+                .Bind(rootConfiguration.AdminConfiguration);
+            Configuration.GetSection(ConfigurationConsts.IdentityDataConfigurationKey)
+                .Bind(rootConfiguration.IdentityDataConfiguration);
+            Configuration.GetSection(ConfigurationConsts.IdentityServerDataConfigurationKey)
+                .Bind(rootConfiguration.IdentityServerDataConfiguration);
             return rootConfiguration;
         }
     }

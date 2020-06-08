@@ -17,7 +17,14 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return services.AddAdminServices<TAdminDbContext, TAdminDbContext, TAdminDbContext>();
         }
-
+        /// <summary>
+        /// 将管理端用到的依赖关系，全部注入，像数据仓储，服务，配置信息、资源等
+        /// </summary>
+        /// <typeparam name="TConfigurationDbContext"></typeparam>
+        /// <typeparam name="TPersistedGrantDbContext"></typeparam>
+        /// <typeparam name="TLogDbContext"></typeparam>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddAdminServices<TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext>(this IServiceCollection services)
             where TPersistedGrantDbContext : DbContext, IAdminPersistedGrantDbContext
             where TConfigurationDbContext : DbContext, IAdminConfigurationDbContext
